@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+
+  frontend:
+    image: frontend:latest
+    depends_on:
+      - postgres
+    ports:
+      - 80:8080
+
+  auth-service:
+    image: auth-service:latest
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - USERS_SERV_URL=users-service:8080/api/users
+    ports:
+      - 8081:8080
+
+  users-service:
+    image: users-service:latest
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+    ports:
+      - 8082:8080
+
+  shopping-service:
+    image: shopping-service:latest
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+    ports:
+      - 8083:8080
+
+  postgres:
+    image: postgres:11
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+volumes:
+  database_data:
+    driver: local
