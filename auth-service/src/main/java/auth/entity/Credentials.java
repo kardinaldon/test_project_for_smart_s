@@ -1,4 +1,4 @@
-package Entity;
+package auth.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

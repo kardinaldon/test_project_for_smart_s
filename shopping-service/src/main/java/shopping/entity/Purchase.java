@@ -1,6 +1,6 @@
-package entity;
+package shopping.entity;
 
-import domain.LocalDateAdapter;
+import shopping.domain.LocalDateAdapter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

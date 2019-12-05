@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM maven:3-jdk-11
 
 ADD target/auth-service.jar /app/
 WORKDIR /app

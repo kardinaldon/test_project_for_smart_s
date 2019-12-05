@@ -1,4 +1,4 @@
-package domain;
+package shopping.domain;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;

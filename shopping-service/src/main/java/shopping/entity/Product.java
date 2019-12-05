@@ -1,4 +1,4 @@
-package entity;
+package shopping.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,4 @@
-package entity;
+package user.repository.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
