@@ -6,4 +6,6 @@ INSERT INTO public.APP_PRODUCT (PRODUCT_TITLE, PRODUCT_PRICE) VALUES ('Клав�
 
 INSERT INTO public.APP_USER (USER_NAME, USER_LAST_NAME, USER_AGE) VALUES ('Иван','Иванов', 10);
 
-INSERT INTO public.APP_CREDENTIALS (USER_ID, USER_LOGIN, USER_PASS) VALUES (1,'user', '739k�-q���9n�');
+INSERT INTO public.APP_CREDENTIALS (USER_ID, USER_LOGIN, USER_PASS) VALUES (1,'user', '�Ϝ!�Z��u\��%[U');
+
+

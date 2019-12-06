@@ -34,4 +34,7 @@ public class Aes {
     }
 
 
+    public SecretKey getSecretKey() {
+        return secretKey;
+    }
 }
