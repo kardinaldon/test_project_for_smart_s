@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class CredentialsDto {
+public class MostPurchasedItemDto {
 
-    private String login;
-    private String password;
-
+    private String purchaseName;
+    private int count;
 }

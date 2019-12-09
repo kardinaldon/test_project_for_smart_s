@@ -1,4 +1,4 @@
-package auth.entity;
+package front.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,8 +15,8 @@ public class Credentials implements Serializable {
     @Column(name="USER_ID")
     private long userId;
 
-    @Column(name="USER_LOGIN")
-    private long userLogin;
+    @Column(name="USERNAME")
+    private long username;
 
     @Column(name="USER_PASS")
     private String password;
