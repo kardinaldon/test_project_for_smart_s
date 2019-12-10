@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import user.repository.UsersRepository;
 import user.entity.User;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,19 +30,6 @@ public class UserController {
         Optional<User> userOptional = usersRepository.findById(id);
         User user = userOptional.get();
         UserDto userDto = modelMapper.map(user,UserDto.class);
-        return userDto;
-    }
-
-    @GetMapping(value = PathConstants.USER_SERVICE_BY_AGE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getUsersByAge(@RequestParam int age) {
-        ModelMapper modelMapper = new ModelMapper();
-        List<UserDto> userDto = new ArrayList<>();
-        List<User> userList = usersRepository.findByAge(age);
-        for (User user : userList) {
-            userDto.add(modelMapper.map(user,UserDto.class));
-        }
         return userDto;
     }
 

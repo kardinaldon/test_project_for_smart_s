@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class BestCustomerDto {
+
     private long buyersId;
     private int count;
 }

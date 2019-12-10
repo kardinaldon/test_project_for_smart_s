@@ -6,6 +6,12 @@ services:
     image: frontend:latest
     depends_on:
       - postgres
+      - shopping-service
+      - users-service
+    environment:
+      - DB_HOST=postgres
+      - SHOPPING_SERVICE=shopping-service:8080
+      - USERS_SERVICE=users-service:8080
     ports:
       - 80:8080
 
