@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import shopping.constant.PathConstants;
+import constant.PathConstants;
 import shopping.entity.Purchase;
 import shopping.repository.PurchaseRepository;
 
@@ -30,6 +30,19 @@ public class ShoppingController {
     public List<PurchaseDto> getAllPurchases() {
         ModelMapper modelMapper = new ModelMapper();
         Iterable<Purchase> purchaseRepositoryAll = purchaseRepository.findAll();
+        List<PurchaseDto> purchaseDtoList = new ArrayList<>();
+        for (Purchase purchase : purchaseRepositoryAll) {
+            purchaseDtoList.add(modelMapper.map(purchase, PurchaseDto.class));
+        }
+        return purchaseDtoList;
+    }
+
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_SPECIFIC_CUSTOMER_PURCHASES,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<PurchaseDto> getSpecificCustomerPurchases(@RequestParam int id) {
+        ModelMapper modelMapper = new ModelMapper();
+        Iterable<Purchase> purchaseRepositoryAll = purchaseRepository.findSpecificCustomerPurchases(id);
         List<PurchaseDto> purchaseDtoList = new ArrayList<>();
         for (Purchase purchase : purchaseRepositoryAll) {
             purchaseDtoList.add(modelMapper.map(purchase, PurchaseDto.class));

@@ -24,6 +24,8 @@
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.10</lombok.version>
+        <common.types.version>1.0-SNAPSHOT</common.types.version>
+        <modelmapper.version>2.3.5</modelmapper.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
@@ -60,11 +62,6 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-rest</artifactId>
-                <version>${spring.boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
@@ -76,11 +73,6 @@
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.swagger2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-data-rest</artifactId>
                 <version>${springfox.swagger2.version}</version>
             </dependency>
             <dependency>
@@ -103,12 +95,12 @@
             <dependency>
                 <groupId>com.test_project_for_smartsoft</groupId>
                 <artifactId>common-types</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${common.types.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.modelmapper</groupId>
                 <artifactId>modelmapper</artifactId>
-                <version>2.3.5</version>
+                <version>${modelmapper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

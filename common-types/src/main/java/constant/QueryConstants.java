@@ -1,7 +1,8 @@
-package shopping.constant;
+package constant;
 
 public interface QueryConstants {
 
+//    Shopping service queries
     String PURCHASES_DURING_THE_WEEK = "SELECT * FROM APP_PURCHASE WHERE purchase_date > (NOW() - INTERVAL '7 DAY')";
     String MOST_PURCHASED_ITEM_IN_THE_LAST_MONTH = "SELECT (APP_PURCHASE.purchase_name) AS text, count(*) " +
             "FROM APP_PURCHASE WHERE APP_PURCHASE.purchase_date > (NOW() - INTERVAL '30 DAY') " +
@@ -12,5 +13,6 @@ public interface QueryConstants {
     String MOST_PURCHASED_PRODUCT_BY_EIGHTEEN_YEAR_OLD_CUSTOMERS = "SELECT (APP_PURCHASE.purchase_name) AS text, count(*) " +
             "FROM APP_PURCHASE WHERE APP_PURCHASE.buyers_id IN (2,3) " +
             "GROUP BY APP_PURCHASE.purchase_name HAVING count(*) > 1 ORDER BY 2 DESC LIMIT 1";
+    String SPECIFIC_CUSTOMER_PURCHASES = "SELECT * FROM APP_PURCHASE WHERE buyers_id = :id";
 
 }

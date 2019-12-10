@@ -1,5 +1,6 @@
 package user.controller;
 
+import constant.PathConstants;
 import dto.UserDto;
 import lombok.AllArgsConstructor;
 
@@ -16,14 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("${user.service.prefix}")
+@RequestMapping(PathConstants.USER_SERVICE_PREFIX)
 @AllArgsConstructor
 public class UserController {
 
     @Autowired
     private final UsersRepository usersRepository;
 
-    @GetMapping(
+    @GetMapping(value = PathConstants.USER_SERVICE_BY_ID,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUserById(@RequestParam long id) {
@@ -34,7 +35,7 @@ public class UserController {
         return userDto;
     }
 
-    @GetMapping(value = "${user.service.user.by.age.prefix}",
+    @GetMapping(value = PathConstants.USER_SERVICE_BY_AGE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> getUsersByAge(@RequestParam int age) {
