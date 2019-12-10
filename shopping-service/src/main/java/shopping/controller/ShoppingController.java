@@ -9,31 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import shopping.constant.PathConstants;
 import shopping.entity.Purchase;
 import shopping.repository.PurchaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("${shopping.service.prefix}")
+@RequestMapping(PathConstants.SHOPPING_SERVICE_PREFIX)
 @AllArgsConstructor
 public class ShoppingController {
 
     @Autowired
     private final PurchaseRepository purchaseRepository;
 
-    @PostMapping(path = "${shopping.service.new.purchase}",
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public void savePurchase(PurchaseDto purchaseDto) {
-        ModelMapper modelMapper = new ModelMapper();
-        Purchase purchase = modelMapper.map(purchaseDto, Purchase.class);
-        purchaseRepository.save(purchase);
-    }
-
-    @GetMapping(path = "${shopping.service.all.purchases.prefix}",
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_ALL_PURCHASE_PREFIX,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<PurchaseDto> getAllPurchases() {
@@ -46,7 +37,7 @@ public class ShoppingController {
         return purchaseDtoList;
     }
 
-    @GetMapping(path = "${shopping.service.purchases.for.certain.period}",
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_PURCHASE_FOR_CERTAIN_PERIOD,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<PurchaseDto> getPurchasesDuringTheWeek() {
@@ -59,13 +50,13 @@ public class ShoppingController {
         return purchaseDtoList;
     }
 
-    @GetMapping(path = "${shopping.service.purchases.most.purchased.item.in.the.last.month}",
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_PURCHASE_MOST_PURCHASED_ITEM_IN_THE_LAST_MONTH,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public MostPurchasedItemDto getMostPurchasedItemInTheLastMonth() {
         MostPurchasedItemDto mostPurchasedItemDto = new MostPurchasedItemDto();
-        String[][] weeklyPurchases = purchaseRepository.mostPurchasedItemInTheLastMonth();
-        if(weeklyPurchases.length > 0){
+        String[][] weeklyPurchases = purchaseRepository.findMostPurchasedItemInTheLastMonth();
+        if (weeklyPurchases.length > 0) {
             mostPurchasedItemDto.setPurchaseName(weeklyPurchases[0][0]);
             mostPurchasedItemDto.setCount(Integer.parseInt(weeklyPurchases[0][1]));
             return mostPurchasedItemDto;
@@ -77,13 +68,13 @@ public class ShoppingController {
 
     }
 
-    @GetMapping(path = "${shopping.service.best.customer.in.half.year}",
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_BEST_CUSTOMER_IN_HALF_YEAR,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BestCustomerDto getBestCustomerInHalfYear() {
         BestCustomerDto bestCustomerDto = new BestCustomerDto();
         String[][] weeklyPurchases = purchaseRepository.findBestCustomerInHalfYear();
-        if(weeklyPurchases.length > 0) {
+        if (weeklyPurchases.length > 0) {
             bestCustomerDto.setBuyersId(Long.parseLong(weeklyPurchases[0][0]));
             bestCustomerDto.setCount(Integer.parseInt(weeklyPurchases[0][1]));
             return bestCustomerDto;
@@ -93,6 +84,32 @@ public class ShoppingController {
             return bestCustomerDto;
         }
 
+    }
+
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_MOST_PURCHASED_PRODUCT_BY_EIGHTEEN_YEAR_OLD_CUSTOMERS,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public MostPurchasedItemDto getMostPurchasedProductByEighteenYearOldCustomers() {
+        MostPurchasedItemDto mostPurchasedItemDto = new MostPurchasedItemDto();
+        String[][] weeklyPurchases = purchaseRepository.findMostPurchasedProductByEighteenYearOldCustomers();
+        if (weeklyPurchases.length > 0) {
+            mostPurchasedItemDto.setPurchaseName(weeklyPurchases[0][0]);
+            mostPurchasedItemDto.setCount(Integer.parseInt(weeklyPurchases[0][1]));
+            return mostPurchasedItemDto;
+        } else {
+            mostPurchasedItemDto.setPurchaseName("");
+            mostPurchasedItemDto.setCount(0);
+            return mostPurchasedItemDto;
+        }
+    }
+
+    @PostMapping(path = PathConstants.SHOPPING_SERVICE_NEW_PURCHASE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void savePurchase(PurchaseDto purchaseDto) {
+        ModelMapper modelMapper = new ModelMapper();
+        Purchase purchase = modelMapper.map(purchaseDto, Purchase.class);
+        purchaseRepository.save(purchase);
     }
 
 }
