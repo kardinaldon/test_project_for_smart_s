@@ -21,7 +21,7 @@
         <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
         <dockerfile.maven.plugin.version>1.4.13</dockerfile.maven.plugin.version>
         <postgresql.version>42.2.8</postgresql.version>
-        <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
+        <springdoc.openapi.version>1.2.17</springdoc.openapi.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.10</lombok.version>
         <common.types.version>1.0-SNAPSHOT</common.types.version>
@@ -71,14 +71,9 @@
                 <version>${postgresql.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.swagger2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.swagger2.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.openapi.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
