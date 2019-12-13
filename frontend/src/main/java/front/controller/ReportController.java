@@ -46,15 +46,15 @@ public class ReportController {
             @ApiResponse(responseCode = "404", description = "Purchases not found")})
     @GetMapping(path = PathConstants.FRONTEND_ALL_PURCHASES_PER_WEEK,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<PurchaseDto[]> getAllPurchasesPerWeek() {
+    public ResponseEntity<Object[]> getAllPurchasesPerWeek() {
         try {
 
             return restTemplate.getForEntity(shoppingServiceUrl
                             + PathConstants.SHOPPING_SERVICE_PREFIX
                             + PathConstants.SHOPPING_SERVICE_PURCHASE_FOR_CERTAIN_PERIOD,
-                    PurchaseDto[].class);
+                    Object[].class);
         } catch (HttpStatusCodeException e) {
-            return new ResponseEntity<PurchaseDto[]>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Object[]>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -3,7 +3,9 @@ package front.repository;
 import front.entity.Credentials;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CredentialsRepository extends JpaRepository<Credentials, Long> {
+import java.util.Optional;
 
-    Credentials findByUsername(String username);
+public interface CredentialsRepository extends JpaRepository<Credentials, Integer> {
+
+    Optional<Credentials> findByUserName(String userName);
 }

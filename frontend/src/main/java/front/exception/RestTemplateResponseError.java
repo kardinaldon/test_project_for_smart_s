@@ -1,7 +1,6 @@
 package front.exception;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 

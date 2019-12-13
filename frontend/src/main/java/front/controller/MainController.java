@@ -43,7 +43,7 @@ public class MainController {
             @ApiResponse(responseCode = "415", description = "Unsupported Media Type")})
     @GetMapping(path = PathConstants.FRONTEND_SPECIFIC_CUSTOMER_PURCHASES,
                 produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<PurchaseDto[]> getCustomerPurchases(@Parameter(description="user ID") @RequestParam int id) {
+    public ResponseEntity<Object[]> getCustomerPurchases(@Parameter(description="user ID") @RequestParam int id) {
         try {
             LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
             params.add("id",String.valueOf(id));
@@ -52,11 +52,33 @@ public class MainController {
                     + PathConstants.SHOPPING_SERVICE_SPECIFIC_CUSTOMER_PURCHASES)
                     .queryParams(params);
             UriComponents uriComponents = builder.build().encode();
-            ResponseEntity<PurchaseDto[]> responseEntity = restTemplate.exchange(uriComponents.toUri(), HttpMethod.GET,
-                    null, PurchaseDto[].class);
+            ResponseEntity<Object[]> responseEntity = restTemplate.exchange(uriComponents.toUri(), HttpMethod.GET,
+                    null, Object[].class);
             return responseEntity;
         } catch (HttpStatusCodeException e) {
-            return new ResponseEntity<PurchaseDto[]>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Object[]>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Operation(summary = "Create new purchase", description = "new purchase", tags = {"Main user controller"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Purchase was created",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = PurchaseDto.class)))),
+            @ApiResponse(responseCode = "500", description = "failed to create a new purchase"),
+            @ApiResponse(responseCode = "400", description = "bad request"),
+            @ApiResponse(responseCode = "415", description = "failed to create a new purchase,because Unsupported Media Type was sent")})
+    @PostMapping(path = PathConstants.FRONTEND_NEW_PURCHASE, consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity savePurchase(@RequestBody PurchaseDto purchaseDto) {
+        try {
+            ResponseEntity responseEntity = restTemplate.postForObject(shoppingServiceUrl
+                            + PathConstants.SHOPPING_SERVICE_PREFIX
+                            + PathConstants.SHOPPING_SERVICE_NEW_PURCHASE, purchaseDto,
+                    ResponseEntity.class);
+            return responseEntity;
+        } catch (HttpStatusCodeException e) {
+            return ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders())
+                    .body(e.getResponseBodyAsString());
+        }
+
     }
 }

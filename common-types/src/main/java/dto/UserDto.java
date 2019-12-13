@@ -1,19 +1,15 @@
 package dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
 public class UserDto {
 
     @Schema(description = "user ID.",
-            example = "1", required = true)
+            example = "1", required = false)
     private long userId;
 
     @Schema(description = "user name.",

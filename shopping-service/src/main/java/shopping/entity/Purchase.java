@@ -1,11 +1,17 @@
 package shopping.entity;
 
 import adapter.LocalDateAdapter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -53,6 +59,10 @@ public class Purchase implements Serializable {
             example = "02.05.2019", required = true)
     @Column(name="PURCHASE_DATE")
     @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate purchaseDate;
 
 }

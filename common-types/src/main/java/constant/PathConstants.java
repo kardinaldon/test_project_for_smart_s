@@ -6,7 +6,7 @@ public interface PathConstants {
     String FRONTEND_REST = "/front";
     String FRONTEND_REST_REPORTS = "/front_reports";
     String FRONTEND_SPECIFIC_CUSTOMER_PURCHASES = "/customer_purchases";
-    String FRONTEND_NEW_PURCHASE = "/purchase";
+    String FRONTEND_NEW_PURCHASE = "/purchase_new";
     String FRONTEND_ALL_PURCHASES_PER_WEEK = "/all_purchases_per_week";
     String FRONTEND_PURCHASE_MOST_PURCHASED_ITEM_IN_THE_LAST_MONTH = "/top_purchase_last_month";
     String FRONTEND_BEST_CUSTOMER_IN_HALF_YEAR = "/best_customer_half_year";

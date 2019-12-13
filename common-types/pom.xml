@@ -19,18 +19,63 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxb2-maven-plugin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
 
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <id>schemagen</id>
+                        <goals>
+                            <goal>schemagen</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sources>
+                        <source>src/main/java/dto/PurchaseDto.java</source>
+                    </sources>
+                    <outputDirectory>src/main/resources/xsd</outputDirectory>
+                    <clearOutputDir>true</clearOutputDir>
+                    <transformSchemas>
+                        <transformSchema>
+                            <uri>/java/dto</uri>
+                            <toPrefix>purchase</toPrefix>
+                            <toFile>purchase.xsd</toFile>
+                        </transformSchema>
+                    </transformSchemas>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

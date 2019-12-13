@@ -1,5 +1,6 @@
 package shopping.controller;
 
+import constant.PathConstants;
 import dto.BestCustomerDto;
 import dto.MostPurchasedItemDto;
 import dto.PurchaseDto;
@@ -18,9 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import constant.PathConstants;
 import shopping.entity.Purchase;
 import shopping.repository.PurchaseRepository;
+
 import java.util.List;
 
 @RestController
@@ -159,13 +160,11 @@ public class ShoppingController {
             @ApiResponse(responseCode = "500", description = "failed to create a new purchase"),
             @ApiResponse(responseCode = "400", description = "bad request"),
             @ApiResponse(responseCode = "415", description = "failed to create a new purchase,because Unsupported Media Type was sent")})
-    @PostMapping(path = PathConstants.SHOPPING_SERVICE_NEW_PURCHASE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = PathConstants.SHOPPING_SERVICE_NEW_PURCHASE, consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity savePurchase(@RequestBody PurchaseDto purchaseDto) {
         try {
-            System.out.println(purchaseDto.getPurchaseName());
             ModelMapper modelMapper = new ModelMapper();
             Purchase purchase = modelMapper.map(purchaseDto, Purchase.class);
-            System.out.println(purchase.getPurchaseName());
             purchaseRepository.save(purchase);
             return new ResponseEntity(purchase, HttpStatus.OK);
         } catch (Exception e) {
