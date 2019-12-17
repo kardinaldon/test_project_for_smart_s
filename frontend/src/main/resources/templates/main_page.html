@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>Login page</title>
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css"/>
+    <script src="/static/libraries/vue.js"></script>
+    <script src="/static/libraries/axios.js"></script>
+
+</head>
+<body>
+<header>
+    <menu>
+        <ul>
+            <li>Информация о своих покупках</li>
+            <li>Покупки за последнюю неделю</li>
+            <li>Самый покупаемый товар за последний месяц</li>
+            <li>Самый активный покупатель за пол года</li>
+            <li>Самый покупаемый товар 18 летними покупателями</li>
+        </ul>
+    </menu>
+    <button onclick="location.href='/exit'">Выход</button>
+</header>
+<main>
+    <div id="main_content">
+        <div v-html="vueHtml"></div>
+        <table >
+            <caption>Список покупок текущего пользователя</caption>
+            <tr>
+                <th>ID Покупки</th>
+                <th>Имя покупки</th>
+                <th>Количество товара</th>
+                <th>Сумма покупки</th>
+                <th>Дата покупки</th>
+            </tr>
+            <tr v-for="purchase in purchases">
+                <th>{{purchase.purchaseId}}</th>
+                <th>{{purchase.purchaseName}}</th>
+                <th>{{purchase.countOfPurchase}}</th>
+                <th>{{purchase.purchaseAmount}}</th>
+                <th>{{purchase.purchaseDate}}</th>
+            </tr>
+        </table>
+    </div>
+</main>
+<footer>
+    <script src="/static/js/login.js"></script>
+    <script src="/static/js/main.js"></script>
+</footer>
+</body>
+</html>
