@@ -1,47 +1,115 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache">
     <title>Login page</title>
     <link rel="stylesheet" href="/static/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/main_user_page.css" type="text/css"/>
     <script src="/static/libraries/vue.js"></script>
     <script src="/static/libraries/axios.js"></script>
 
 </head>
 <body>
 <header>
+
+    <button onclick="location.href='/exit'">Выход</button>
+    <div id="login_form_content"></div>
+</header>
+<main id="main_bloc">
     <menu>
-        <ul>
-            <li>Информация о своих покупках</li>
-            <li>Покупки за последнюю неделю</li>
-            <li>Самый покупаемый товар за последний месяц</li>
-            <li>Самый активный покупатель за пол года</li>
-            <li>Самый покупаемый товар 18 летними покупателями</li>
+        <ul id="main_menu">
+            <li class="main_menu_item"><button v-on:click="my_purchases">Информация о своих покупках</button></li>
+            <li class="main_menu_item"><button v-on:click="per_week">Покупки за последнюю неделю</button></li>
+            <li class="main_menu_item"><button v-on:click="last_month">Самый покупаемый товар за последний месяц</button></li>
+            <li class="main_menu_item"><button v-on:click="in_half_year">Самый активный покупатель за пол года</button></li>
+            <li class="main_menu_item"><button v-on:click="specific_user_age_purchases">Самый покупаемый товар 18 летними покупателями</button></li>
         </ul>
     </menu>
-    <button onclick="location.href='/exit'">Выход</button>
-</header>
-<main>
-    <div id="main_content">
-        <div v-html="vueHtml"></div>
-        <table >
-            <caption>Список покупок текущего пользователя</caption>
-            <tr>
-                <th>ID Покупки</th>
-                <th>Имя покупки</th>
-                <th>Количество товара</th>
-                <th>Сумма покупки</th>
-                <th>Дата покупки</th>
-            </tr>
-            <tr v-for="purchase in purchases">
-                <th>{{purchase.purchaseId}}</th>
-                <th>{{purchase.purchaseName}}</th>
-                <th>{{purchase.countOfPurchase}}</th>
-                <th>{{purchase.purchaseAmount}}</th>
-                <th>{{purchase.purchaseDate}}</th>
-            </tr>
-        </table>
+    <div id="main_user_content">
+        <template v-if="rendering_shopping_list">
+            <table id="user purchases" class="table_main">
+                <h1 class="table_h1">Список покупок текущего пользователя</h1>
+                <tr>
+                    <th>ID Покупки</th>
+                    <th>Имя покупки</th>
+                    <th>Количество товара</th>
+                    <th>Сумма покупки</th>
+                    <th>Дата покупки</th>
+                </tr>
+                <tr v-for="purchase in purchases"
+                >
+                    <th>{{purchase.purchaseId}}</th>
+                    <th>{{purchase.purchaseName}}</th>
+                    <th>{{purchase.countOfPurchase}}</th>
+                    <th>{{purchase.purchaseAmount}}</th>
+                    <th>{{purchase.purchaseDate}}</th>
+                </tr>
+            </table>
+        </template>
+
+        <template v-else-if="rendering_all_purchases_per_week">
+            <table id="all_purchases_per_week" class="table_main">
+                <h1 class="table_h1">Список покупок за последнюю неделю</h1>
+                <tr>
+                    <th>ID Покупки</th>
+                    <th>Имя покупки</th>
+                    <th>Количество товара</th>
+                    <th>Сумма покупки</th>
+                    <th>Дата покупки</th>
+                </tr>
+                <tr v-for="purchase_per_week in purchases_per_week">
+                    <th>{{purchase_per_week.purchaseId}}</th>
+                    <th>{{purchase_per_week.purchaseName}}</th>
+                    <th>{{purchase_per_week.countOfPurchase}}</th>
+                    <th>{{purchase_per_week.purchaseAmount}}</th>
+                    <th>{{purchase_per_week.purchaseDate}}</th>
+                </tr>
+            </table>
+        </template>
+
+        <template v-else-if="rendering_most_purchased_item_last_month">
+            <table id="most_purchased_item_last_month" class="table_main">
+                <h1 class="table_h1">Самый покупаемый товар за последний месяц</h1>
+                <tr>
+                    <th>Имя покупки</th>
+                    <th>Количество покупок</th>
+                </tr>
+                <tr>
+                    <th>{{most_purchased_items_last_month.purchaseName}}</th>
+                    <th>{{most_purchased_items_last_month.count}}</th>
+                </tr>
+            </table>
+        </template>
+
+        <template v-else-if="rendering_best_customer_in_half_year">
+            <table id="best_customer_in_half_year" class="table_main">
+                <h1 class="table_h1">Имя и фамилия человека, совершившего больше всего покупок за полгода</h1>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                </tr>
+                <tr>
+                    <th>{{best_customers.userName}}</th>
+                    <th>{{best_customers.userLastName}}</th>
+                </tr>
+            </table>
+        </template>
+
+        <template v-else-if="rendering_most_bought_by_eighteen_year_old_customers">
+            <table id="most_bought_by_eighteen_year_old_customers" class="table_main">
+                <h1 class="table_h1">Что чаще всего покупают люди в возрасте 18 лет</h1>
+                <tr>
+                    <th>Имя покупки</th>
+                    <th>Количество покупок</th>
+                </tr>
+                <tr>
+                    <th>{{most_purchased_items_eighteen_customers.purchaseName}}</th>
+                    <th>{{most_purchased_items_eighteen_customers.count}}</th>
+                </tr>
+            </table>
+        </template>
+
     </div>
 </main>
 <footer>

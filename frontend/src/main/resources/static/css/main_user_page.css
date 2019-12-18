@@ -1,0 +1,30 @@
+#main_user_content {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.7) 25%, rgba(255, 255, 255, 0.7) 75%, rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(255, 255, 255, 0.9);
+    max-width: 50%;
+    margin: auto;
+    padding: 1%;
+    border-radius: 10px;
+}
+
+#main_menu {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.7) 25%, rgba(255, 255, 255, 0.7) 75%, rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(255, 255, 255, 0.9);
+    max-width: max-content;
+    padding: 1%;
+    border-radius: 10px;
+}
+
+.main_menu_item {
+
+}
+
+.table_h1 {
+    margin: 0 auto;
+    max-width: fit-content;
+}
+
+.table_main {
+    margin: 0 auto;
+    max-width: fit-content;
+}

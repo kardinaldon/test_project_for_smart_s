@@ -16,6 +16,6 @@ public class TestController {
     public ResponseEntity homePage() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Custom-Header", "foo");
-        return new ResponseEntity(headers, HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
