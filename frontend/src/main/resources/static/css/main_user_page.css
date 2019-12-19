@@ -28,3 +28,8 @@
     margin: 0 auto;
     max-width: fit-content;
 }
+
+#new_article {
+    min-width: 500px;
+    min-height: 500px;
+}

@@ -19,10 +19,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 import shopping.entity.Purchase;
 import shopping.repository.PurchaseRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(PathConstants.SHOPPING_SERVICE_PREFIX)
@@ -160,17 +162,31 @@ public class ShoppingController {
             @ApiResponse(responseCode = "500", description = "failed to create a new purchase"),
             @ApiResponse(responseCode = "400", description = "bad request"),
             @ApiResponse(responseCode = "415", description = "failed to create a new purchase,because Unsupported Media Type was sent")})
-    @PostMapping(path = PathConstants.SHOPPING_SERVICE_NEW_PURCHASE, consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @PostMapping(path = PathConstants.SHOPPING_SERVICE_NEW_PURCHASE, consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity savePurchase(@RequestBody PurchaseDto purchaseDto) {
         try {
             ModelMapper modelMapper = new ModelMapper();
             Purchase purchase = modelMapper.map(purchaseDto, Purchase.class);
             purchaseRepository.save(purchase);
-            return new ResponseEntity(purchase, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (HttpStatusCodeException e) {
+            return ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders())
+                    .body(e.getResponseBodyAsString());
         }
 
+    }
+
+    @GetMapping(path = PathConstants.SHOPPING_SERVICE_PURCHASE_BY_ID, produces = MediaType.APPLICATION_XML_VALUE)
+    public PurchaseDto getPurchaseById() {
+        try {
+            Optional<Purchase> purchaseOpt = purchaseRepository.findById(1L);
+            Purchase purchase = purchaseOpt.get();
+            ModelMapper modelMapper = new ModelMapper();
+            PurchaseDto purchaseDto = modelMapper.map(purchase, PurchaseDto.class);
+            return purchaseDto;
+        } catch (Exception e) {
+            return new PurchaseDto();
+        }
     }
 
 }

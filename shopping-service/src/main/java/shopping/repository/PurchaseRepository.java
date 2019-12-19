@@ -1,12 +1,11 @@
 package shopping.repository;
 
+import constant.QueryConstants;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import constant.QueryConstants;
 import shopping.entity.Purchase;
 
 import java.util.List;
@@ -33,4 +32,5 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query(value = QueryConstants.SPECIFIC_CUSTOMER_PURCHASES,
             nativeQuery = true)
     List<Purchase> findSpecificCustomerPurchases(@Param("id") int id);
+
 }

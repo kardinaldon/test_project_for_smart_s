@@ -6,12 +6,17 @@ new Vue({
         rendering_most_purchased_item_last_month: false,
         rendering_best_customer_in_half_year: false,
         rendering_most_bought_by_eighteen_year_old_customers: false,
-        purchases: null,
+        rendering_new_purchase: false,
+        purchaseName: '',
+        countOfPurchase: 0,
+        purchaseAmount: 0,
+        purchases: '',
         purchases_per_week: null,
         most_purchased_items_last_month: null,
         best_customers: null,
         most_purchased_items_eighteen_customers: null
     },
+
     mounted() {
         // axios
         //     .get('../front/customer_purchases?id=1')
@@ -77,6 +82,7 @@ new Vue({
             this.rendering_most_purchased_item_last_month = false;
             this.rendering_best_customer_in_half_year = false;
             this.rendering_most_bought_by_eighteen_year_old_customers = false;
+            this.rendering_new_purchase = false;
         },
 
         per_week: function(event) {
@@ -85,6 +91,7 @@ new Vue({
             this.rendering_most_purchased_item_last_month = false;
             this.rendering_best_customer_in_half_year = false;
             this.rendering_most_bought_by_eighteen_year_old_customers = false;
+            this.rendering_new_purchase = false;
         },
 
         last_month: function(event) {
@@ -93,6 +100,7 @@ new Vue({
             this.rendering_most_purchased_item_last_month = true;
             this.rendering_best_customer_in_half_year = false;
             this.rendering_most_bought_by_eighteen_year_old_customers = false;
+            this.rendering_new_purchase = false;
         },
 
         in_half_year: function(event) {
@@ -101,6 +109,7 @@ new Vue({
             this.rendering_most_purchased_item_last_month = false;
             this.rendering_best_customer_in_half_year = true;
             this.rendering_most_bought_by_eighteen_year_old_customers = false;
+            this.rendering_new_purchase = false;
         },
 
         specific_user_age_purchases: function(event) {
@@ -109,6 +118,42 @@ new Vue({
             this.rendering_most_purchased_item_last_month = false;
             this.rendering_best_customer_in_half_year = false;
             this.rendering_most_bought_by_eighteen_year_old_customers = true;
+            this.rendering_new_purchase = false;
+        },
+
+        new_purchase: function(event) {
+            this.rendering_shopping_list = false;
+            this.rendering_all_purchases_per_week = false;
+            this.rendering_most_purchased_item_last_month = false;
+            this.rendering_best_customer_in_half_year = false;
+            this.rendering_most_bought_by_eighteen_year_old_customers = false;
+            this.rendering_new_purchase = true;
+        },
+
+        send_purchase_body: function (event) {
+            var xmlBody = '<PurchaseDto>\n' +
+                '<purchaseName>' +
+                this.purchaseName +
+                '</purchaseName>\n' +
+                '<countOfPurchase>' +
+                this.countOfPurchase +
+                '</countOfPurchase>\n' +
+                '<purchaseAmount>' +
+                this.purchaseAmount +
+                '</purchaseAmount>\n' +
+                '</PurchaseDto>';
+            const config = {
+                headers: {'Content-Type': 'application/xml'}
+            };
+            axios.post('../front/purchase_new', xmlBody, config)
+                .then(response => {
+                    alert("Purchase created");
+                })
+                .catch(error => {
+                    // console.log(error);
+                    // alert(error);
+                    alert(error.response.data.message);
+                    });
         }
     }
 });

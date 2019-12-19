@@ -67,18 +67,32 @@ public class MainController {
             @ApiResponse(responseCode = "500", description = "failed to create a new purchase"),
             @ApiResponse(responseCode = "400", description = "bad request"),
             @ApiResponse(responseCode = "415", description = "failed to create a new purchase,because Unsupported Media Type was sent")})
-    @PostMapping(path = PathConstants.FRONTEND_NEW_PURCHASE, consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @PostMapping(path = PathConstants.FRONTEND_NEW_PURCHASE, consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity savePurchase(@RequestBody PurchaseDto purchaseDto) {
         try {
-            ResponseEntity responseEntity = restTemplate.postForObject(shoppingServiceUrl
+            restTemplate.postForObject(shoppingServiceUrl
                             + PathConstants.SHOPPING_SERVICE_PREFIX
                             + PathConstants.SHOPPING_SERVICE_NEW_PURCHASE, purchaseDto,
                     ResponseEntity.class);
-            return responseEntity;
+            return new ResponseEntity(HttpStatus.OK);
         } catch (HttpStatusCodeException e) {
             return ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders())
                     .body(e.getResponseBodyAsString());
         }
-
     }
+
+    @GetMapping(path = PathConstants.FRONTEND_PURCHASE_BY_ID, consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity getPurchaseById() {
+        try {
+            ResponseEntity purchaseDto = restTemplate.getForObject(shoppingServiceUrl
+                            + PathConstants.SHOPPING_SERVICE_PREFIX
+                            + PathConstants.SHOPPING_SERVICE_PURCHASE_BY_ID,
+                    ResponseEntity.class);
+            return purchaseDto;
+        } catch (HttpStatusCodeException e) {
+            return ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders())
+                    .body(e.getResponseBodyAsString());
+        }
+    }
+
 }

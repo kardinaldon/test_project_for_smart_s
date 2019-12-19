@@ -12,6 +12,8 @@ public interface PathConstants {
     String FRONTEND_BEST_CUSTOMER_IN_HALF_YEAR = "/best_customer_half_year";
     String FRONTEND_MOST_PURCHASED_PRODUCT_BY_EIGHTEEN_YEAR_OLD_CUSTOMERS = "/purchased_product_eighteen_customers";
 
+    String FRONTEND_PURCHASE_BY_ID = "/purchase_new_by_id";
+
 //    Shopping service urls
     String SHOPPING_SERVICE_PREFIX = "/shopping_service_rest";
     String SHOPPING_SERVICE_NEW_PURCHASE = "/purchase";
@@ -21,6 +23,8 @@ public interface PathConstants {
     String SHOPPING_SERVICE_BEST_CUSTOMER_IN_HALF_YEAR = "/best_customer_half_year";
     String SHOPPING_SERVICE_MOST_PURCHASED_PRODUCT_BY_EIGHTEEN_YEAR_OLD_CUSTOMERS = "/purchased_product_eighteen_customers";
     String SHOPPING_SERVICE_SPECIFIC_CUSTOMER_PURCHASES = "/specific_customer_purchases";
+
+    String SHOPPING_SERVICE_PURCHASE_BY_ID = "/purchase_new_by_id";
 
 //    User service urls
     String USER_SERVICE_PREFIX = "/user_service_rest";
