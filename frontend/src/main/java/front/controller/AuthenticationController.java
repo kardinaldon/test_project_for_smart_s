@@ -1,6 +1,7 @@
 package front.controller;
 
 
+import constant.PathConstants;
 import front.entity.Credentials;
 import front.repository.CredentialsRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 
 @Controller
-@RequestMapping(value = "/auth")
+@RequestMapping(value = PathConstants.FRONTEND_AUTH)
 @AllArgsConstructor
 @Tag(name = "Authentication Controller", description = "the controller is used as an access point in browser gui, when connected to it with the correct data (username and password base64), the cookie is set to \"id\" (in the future this is used to display the purchases of this user)")
 public class AuthenticationController {
@@ -31,11 +32,11 @@ public class AuthenticationController {
     @Autowired
     private final CredentialsRepository credentialRepository;
 
-    @Operation(summary = "Authentication", description = "access to the controller is controlled by spring security (basic). with correct access, the token containing the username and password of the user is decrypted, then it searches the credentials table, in the database, \"bayerId\" is extracted from this record and set as a cookie \"id\" (session scope)", tags = {"Authentication Controller"})
+    @Operation(summary = "Authentication", description = "with correct access, the token containing the username and password of the user is decrypted, then it searches the credentials table, in the database, \"bayerId\" is extracted from this record and set as a cookie \"id\" (session scope)", tags = {"Authentication Controller"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Logged in correctly"),
             @ApiResponse(responseCode = "400", description = "bad request")})
-    @GetMapping(value = "/authenticator")
+    @GetMapping(value = PathConstants.FRONTEND_AUTH_API)
     public ResponseEntity homePage(HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         byte[] data = Base64.getDecoder().decode(auth.substring(6));
