@@ -30,9 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                     .permitAll();
         requests
-                .antMatchers("/resources/**")
-                    .permitAll()
-                .antMatchers("/static/**", "*/index.html")
+//                .antMatchers("/resources/**")
+//                    .permitAll()
+                .antMatchers("/static/**", "/index.html")
                     .permitAll();
     }
 
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .maximumSessions(2);
         http
                 .authorizeRequests()
-                    .antMatchers("/static/**", "/index.html", "/auth/authenticator")
+                    .antMatchers("/static/**", "/index.html")
                         .permitAll()
                     .antMatchers(HttpMethod.OPTIONS)
                         .permitAll()
@@ -71,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
     {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .authoritiesByUsernameQuery("select USERNAME, USER_PASS from APP_CREDENTIALS where USERNAME=?")
-                .usersByUsernameQuery("select USERNAME, USER_PASS, 1 as enabled from APP_CREDENTIALS where USERNAME=?")
+                .authoritiesByUsernameQuery("SELECT USERNAME, USER_PASS FROM APP_CREDENTIALS WHERE USERNAME=?")
+                .usersByUsernameQuery("SELECT USERNAME, USER_PASS, 1 AS ENABLED FROM APP_CREDENTIALS WHERE USERNAME=?")
                 .passwordEncoder(passwordEncoder());
     }
 
