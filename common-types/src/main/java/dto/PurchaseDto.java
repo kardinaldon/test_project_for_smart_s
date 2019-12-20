@@ -25,34 +25,28 @@ public class PurchaseDto {
 
     @Schema(description = "purchase id.",
             example = "2", required = false)
-//    @XmlElement (name = "purchaseId", type = Long.class)
     @XmlTransient
     private long purchaseId;
 
     @Schema(description = "purchase name.",
             example = "Smartphone", required = true)
-//    @XmlElement (name = "purchaseName", type = String.class)
     private String purchaseName;
 
     @Schema(description = "quantity of goods purchased.",
             example = "3", required = true)
-//    @XmlElement (name = "countOfPurchase", type = Integer.class)
     private int countOfPurchase;
 
     @Schema(description = "purchase amount.",
             example = "1000", required = true)
-//    @XmlElement (name = "purchaseAmount", type = BigDecimal.class)
     private BigDecimal purchaseAmount;
 
     @Schema(description = "customer id.",
             example = "2", required = true)
-//    @XmlElement (name = "buyersId", type = Integer.class)
     private int buyersId;
 
 
     @Schema(description = "date of purchase.",
             example = "02.05.2019", required = true)
-//    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     @JsonDeserialize(using = LocalDateDeserializer.class)

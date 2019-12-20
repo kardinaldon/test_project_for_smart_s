@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import user.entity.User;
 
+@Transactional(readOnly = true)
 @Repository
-@Transactional
 public interface UsersRepository extends CrudRepository<User, Long> {
 
 }

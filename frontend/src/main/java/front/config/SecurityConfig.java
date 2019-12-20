@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         requests
                 .antMatchers("/resources/**")
                     .permitAll()
-                .antMatchers("/static/**")
+                .antMatchers("/static/**", "*/index.html")
                     .permitAll();
     }
 
@@ -47,7 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                 .httpBasic()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .maximumSessions(2);
         http
                 .authorizeRequests()
                     .antMatchers("/static/**", "/index.html", "/auth/authenticator")
@@ -61,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/exit")
                     .logoutSuccessUrl("/index.html")
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID", "Authorization")
+                    .deleteCookies("JSESSIONID", "Authorization", "id")
                     .clearAuthentication(true);
     }
 

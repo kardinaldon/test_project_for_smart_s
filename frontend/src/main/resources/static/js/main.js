@@ -8,8 +8,8 @@ new Vue({
         rendering_most_bought_by_eighteen_year_old_customers: false,
         rendering_new_purchase: false,
         purchaseName: '',
-        countOfPurchase: 0,
-        purchaseAmount: 0,
+        countOfPurchase: '',
+        purchaseAmount: '',
         purchases: '',
         purchases_per_week: null,
         most_purchased_items_last_month: null,
@@ -18,48 +18,8 @@ new Vue({
     },
 
     mounted() {
-        // axios
-        //     .get('../front/customer_purchases?id=1')
-        //     .then(response => {
-        //         this.purchases = response.data;
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-        // axios
-        //     .get('../front_reports/all_purchases_per_week')
-        //     .then(response => {
-        //         this.purchases_per_week = response.data;
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-        // axios
-        //     .get('../front_reports/top_purchase_last_month')
-        //     .then(response => {
-        //         this.most_purchased_items_last_month = response.data;
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-        // axios
-        //     .get('../front_reports/best_customer_half_year')
-        //     .then(response => {
-        //         this.best_customer = response.data;
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-        // axios
-        //     .get('../front_reports/purchased_product_eighteen_customers')
-        //     .then(response => {
-        //         this.most_purchased_items_eighteen_customers = response.data;
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     })
-
-        axios.all([axios.get('../front/customer_purchases?id=1'),
+        var id = this.$cookies.get("id");
+        axios.all([axios.get('../front/customer_purchases/' + id),
             axios.get('../front_reports/all_purchases_per_week'),
             axios.get('../front_reports/top_purchase_last_month'),
             axios.get('../front_reports/best_customer_half_year'),

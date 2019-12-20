@@ -70,7 +70,7 @@
                         <transformSchema>
                             <uri>/java/dto</uri>
                             <toPrefix>purchase</toPrefix>
-                            <toFile>purchase.xsd</toFile>
+                            <toFile>purchase</toFile>
                         </transformSchema>
                     </transformSchemas>
                 </configuration>

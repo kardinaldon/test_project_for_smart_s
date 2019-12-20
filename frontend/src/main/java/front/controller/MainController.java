@@ -24,7 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(PathConstants.FRONTEND_REST)
-@Tag(name = "Main user controller", description = "specific user information generation API")
+@Tag(name = "Main user controller", description = "controller where you can get the current user's shopping list and create a new purchase")
 public class MainController {
 
     private RestTemplate restTemplate = new RestTemplate();
@@ -35,18 +35,17 @@ public class MainController {
     @Value("${user.service.url}")
     private String userServiceUrl;
 
-    @Operation(summary = "Find purchases for a specific user", description = "purchases for a specific user", tags = {"Main user controller"})
+    @Operation(summary = "Find purchases for a specific user", description = "access is protected using spring security (basic), with correct access the shopping-service microservice is accessed with the received \"user ID\", the answer will be the current user's shopping list", tags = {"Main user controller"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = PurchaseDto.class)))),
-            @ApiResponse(responseCode = "404", description = "purchases for a specific user not found"),
-            @ApiResponse(responseCode = "415", description = "Unsupported Media Type")})
-    @GetMapping(path = PathConstants.FRONTEND_SPECIFIC_CUSTOMER_PURCHASES,
+            @ApiResponse(responseCode = "404", description = "purchases for a specific user not found")})
+    @GetMapping(path = PathConstants.FRONTEND_SPECIFIC_CUSTOMER_PURCHASES + "/{id}",
                 produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Object[]> getCustomerPurchases(@Parameter(description="user ID") @RequestParam int id) {
+    public ResponseEntity<Object[]> getCustomerPurchases(@Parameter(description="path parameter user ID") @PathVariable String id) {
         try {
             LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("id",String.valueOf(id));
+            params.add("id",id);
             UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(shoppingServiceUrl
                     + PathConstants.SHOPPING_SERVICE_PREFIX
                     + PathConstants.SHOPPING_SERVICE_SPECIFIC_CUSTOMER_PURCHASES)
@@ -60,13 +59,13 @@ public class MainController {
         }
     }
 
-    @Operation(summary = "Create new purchase", description = "new purchase", tags = {"Main user controller"})
+    @Operation(summary = "Create new purchase", description = "access is protected by spring security (basic), with correct access the shopping-service microservice is accessed with the received Request Body purchase (Content-Type application / xml), verification of the received data by xsd schema, with the correct creation of a new HttpStatus.OK will be sent in response to the purchase, in case of failure, an error body will be sent with a description of incorrectly entered data", tags = {"Main user controller"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Purchase was created",
+            @ApiResponse(responseCode = "200", description = "Purchase created",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = PurchaseDto.class)))),
             @ApiResponse(responseCode = "500", description = "failed to create a new purchase"),
             @ApiResponse(responseCode = "400", description = "bad request"),
-            @ApiResponse(responseCode = "415", description = "failed to create a new purchase,because Unsupported Media Type was sent")})
+            @ApiResponse(responseCode = "415", description = "failed to create a new purchase,because Unsupported Media Type sent")})
     @PostMapping(path = PathConstants.FRONTEND_NEW_PURCHASE, consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity savePurchase(@RequestBody PurchaseDto purchaseDto) {
         try {
@@ -80,19 +79,4 @@ public class MainController {
                     .body(e.getResponseBodyAsString());
         }
     }
-
-    @GetMapping(path = PathConstants.FRONTEND_PURCHASE_BY_ID, consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity getPurchaseById() {
-        try {
-            ResponseEntity purchaseDto = restTemplate.getForObject(shoppingServiceUrl
-                            + PathConstants.SHOPPING_SERVICE_PREFIX
-                            + PathConstants.SHOPPING_SERVICE_PURCHASE_BY_ID,
-                    ResponseEntity.class);
-            return purchaseDto;
-        } catch (HttpStatusCodeException e) {
-            return ResponseEntity.status(e.getRawStatusCode()).headers(e.getResponseHeaders())
-                    .body(e.getResponseBodyAsString());
-        }
-    }
-
 }

@@ -5,8 +5,7 @@ new Vue({
         url_index: '/index.html',
         url_main: '/main_page.html',
         login: '',
-        password: '',
-        info: null
+        password: ''
     },
     methods: {
         onSubmit: function() {

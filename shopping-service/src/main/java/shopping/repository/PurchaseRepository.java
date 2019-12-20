@@ -10,8 +10,8 @@ import shopping.entity.Purchase;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Repository
-@Transactional
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
     @Query(value = QueryConstants.PURCHASES_DURING_THE_WEEK,

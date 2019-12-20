@@ -8,27 +8,32 @@
     <link rel="stylesheet" href="/static/css/main_user_page.css" type="text/css"/>
     <script src="/static/libraries/vue.js"></script>
     <script src="/static/libraries/axios.js"></script>
-    <script src="/static/libraries/xml-js.js"></script>
+    <script src="https://unpkg.com/vue-cookies@1.6.1/vue-cookies.js"></script>
 
 </head>
 <body>
 <header>
-
-    <button onclick="location.href='/exit'">Выход</button>
-    <div id="login_form_content"></div>
 </header>
 <main id="main_bloc">
     <menu>
         <ul id="main_menu">
-            <li class="main_menu_item"><button v-on:click="my_purchases">Информация о своих покупках</button></li>
-            <li class="main_menu_item"><button v-on:click="per_week">Покупки за последнюю неделю</button></li>
-            <li class="main_menu_item"><button v-on:click="last_month">Самый покупаемый товар за последний месяц</button></li>
-            <li class="main_menu_item"><button v-on:click="in_half_year">Самый активный покупатель за пол года</button></li>
-            <li class="main_menu_item"><button v-on:click="specific_user_age_purchases">Самый покупаемый товар 18 летними покупателями</button></li>
-            <li class="main_menu_item"><button v-on:click="new_purchase">Новая покупка(валидация по XSD)</button></li>
+            <li class="main_menu_item"><button v-on:click="my_purchases" class="main_button">Мои покупки</button></li>
+            <li class="main_menu_item"><button v-on:click="my_purchases" class="main_button">Отчеты</button>
+                <ul class="submenu">
+                    <li class="main_menu_item"><button v-on:click="per_week">Покупки за последнюю неделю</button></li>
+                    <li class="main_menu_item"><button v-on:click="last_month">Самый покупаемый товар за последний месяц</button></li>
+                    <li class="main_menu_item"><button v-on:click="in_half_year">Самый активный покупатель за пол года</button></li>
+                    <li class="main_menu_item"><button v-on:click="specific_user_age_purchases">Самый покупаемый товар 18 летними покупателями</button></li>
+                    <li class="main_menu_item"><button v-on:click="new_purchase">Новая покупка(валидация по XSD)</button></li>
+                </ul>
+            </li>
+            <li class="main_menu_item"><button onclick="location.href='../swagger-ui/index.html?url=/v3/api-docs&validatorUrl=#/'" class="main_button">Swagger-UI</button>
+            <li class="main_menu_item"><button onclick="location.href='../v3/api-docs'" class="main_button">Swagger yml OpenAPI 3.0</button>
+            <li class="main_menu_item"><button onclick="location.href='/exit'" class="main_button">Выход</button></li>
         </ul>
     </menu>
     <div id="main_user_content">
+        <h3 id="login_form_content">{{login}}</h3>
         <template v-if="rendering_shopping_list">
             <table id="user purchases" class="table_main">
                 <h1 class="table_h1">Список покупок текущего пользователя</h1>

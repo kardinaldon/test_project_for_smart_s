@@ -27,6 +27,7 @@
         <jaxb.api.version>2.3.1</jaxb.api.version>
         <jaxb2.maven.plugin.version>2.5.0</jaxb2.maven.plugin.version>
         <lombok.version>1.18.10</lombok.version>
+        <spring.oxm.version>5.1.8.RELEASE</spring.oxm.version>
         <common.types.version>1.0-SNAPSHOT</common.types.version>
         <modelmapper.version>2.3.5</modelmapper.version>
         <maven.compiler.source>11</maven.compiler.source>
@@ -129,6 +130,16 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>${spring.oxm.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

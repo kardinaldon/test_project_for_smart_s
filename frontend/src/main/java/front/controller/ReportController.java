@@ -28,7 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(PathConstants.FRONTEND_REST_REPORTS)
-@Tag(name = "Reports", description = "report generation API")
+@Tag(name = "Reports", description = "rest controller, where specific purchase reports are generated, access is protected by spring security (basic)")
 public class ReportController {
 
     private RestTemplate restTemplate = new RestTemplate();
@@ -39,11 +39,11 @@ public class ReportController {
     @Value("${user.service.url}")
     private String userServiceUrl;
 
-    @Operation(summary = "Find all purchases per week", description = "all purchases product per week", tags = {"Reports"})
+    @Operation(summary = "Find all purchases per week", description = "with correct access, a report containing a weekly shopping list will be generated", tags = {"Reports"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation",
+            @ApiResponse(responseCode = "200", description = "Successful operation, if there are purchases for the current week, their list will be displayed",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = PurchaseDto.class)))),
-            @ApiResponse(responseCode = "404", description = "Purchases not found")})
+            @ApiResponse(responseCode = "404", description = "Purchases not found - Response body empty, HttpStatus.NOT_FOUND")})
     @GetMapping(path = PathConstants.FRONTEND_ALL_PURCHASES_PER_WEEK,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Object[]> getAllPurchasesPerWeek() {
@@ -58,7 +58,7 @@ public class ReportController {
         }
     }
 
-    @Operation(summary = "Find most purchased item last month", description = "most purchased product in last month", tags = {"Reports"})
+    @Operation(summary = "Find most purchased item last month", description = "with correct access, a report will be generated containing the most purchased product in the last month", tags = {"Reports"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = MostPurchasedItemDto.class)))),
@@ -79,11 +79,11 @@ public class ReportController {
 
     }
 
-    @Operation(summary = "Find the best customer in half year", description = "the best customer in half year", tags = {"Reports"})
+    @Operation(summary = "Find the best customer in half year", description = "with correct access, a report will be generated containing the name and surname of the person who made the most purchases in six months", tags = {"Reports"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserDto.class)))),
-            @ApiResponse(responseCode = "404", description = "the best customer in half year not found")})
+            @ApiResponse(responseCode = "404", description = "the best customer in half year not found - Response body empty, HttpStatus.NOT_FOUND")})
     @GetMapping(path = PathConstants.FRONTEND_BEST_CUSTOMER_IN_HALF_YEAR,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDto> getBestCustomerInHalfYear() {
@@ -109,7 +109,7 @@ public class ReportController {
         }
     }
 
-    @Operation(summary = "Find most bought by eighteen year old customers", description = "most bought by eighteen year old customers", tags = {"Reports"})
+    @Operation(summary = "Find most bought by eighteen year old customers", description = "with correct access, a report will be generated containing the name of the most popular product from an eighteen year old buyer and the number of orders of this product", tags = {"Reports"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = MostPurchasedItemDto.class)))),
